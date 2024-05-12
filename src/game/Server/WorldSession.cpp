@@ -648,12 +648,6 @@ void WorldSession::LogoutPlayer()
         if (Loot* loot = sLootMgr.GetLoot(_player))
             loot->Release(_player);
 
-#ifdef ENABLE_PLAYERBOTS
-        if (_player->GetPlayerbotMgr() && (!_player->GetPlayerbotAI() || _player->GetPlayerbotAI()->IsRealPlayer()))
-            _player->GetPlayerbotMgr()->LogoutAllBots();
-        sRandomPlayerbotMgr.OnPlayerLogout(_player);
-#endif
-
         if (_player->GetDeathTimer())
         {
             _player->getHostileRefManager().deleteReferences();
