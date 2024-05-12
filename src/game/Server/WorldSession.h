@@ -307,6 +307,8 @@ class WorldSession
         // Players connected without socket are bot
         const std::string GetRemoteAddress() const { return m_socket ? m_socket->GetRemoteAddress() : "disconnected/bot"; }
 #else
+#ifdef ENABLE_PLAYERBOTS
+		// Players connected without socket are bot
         const std::string GetRemoteAddress() const { return m_socket ? m_socket->GetRemoteAddress() : "disconnected"; }
 #endif
 #endif
