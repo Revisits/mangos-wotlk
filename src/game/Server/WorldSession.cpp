@@ -215,7 +215,7 @@ void WorldSession::SendPacket(WorldPacket const& packet) const
     }
 #endif
 
-    if (!m_socket || (m_sessionState != WORLD_SESSION_STATE_READY && !forcedSend))
+    if (!m_socket || (m_sessionState != WORLD_SESSION_STATE_READY))
     {
         //sLog.outDebug("Refused to send %s to %s", packet.GetOpcodeName(), _player ? _player->GetName() : "UKNOWN");
         return;
@@ -640,7 +640,7 @@ void WorldSession::LogoutPlayer()
             _player->GetPlayerbotMgr()->LogoutAllBots(true);
 #endif
 #ifdef ENABLE_PLAYERBOTS
-        sLog.outChar("Account: %d (IP: %s) Logout Character:[%s] (guid: %u)", GetAccountId(), m_Socket ? GetRemoteAddress().c_str() : "bot", _player->GetName(), _player->GetGUIDLow());
+        sLog.outChar("Account: %d (IP: %s) Logout Character:[%s] (guid: %u)", GetAccountId(), m_socket ? GetRemoteAddress().c_str() : "bot", _player->GetName(), _player->GetGUIDLow());
 #else
         sLog.outChar("Account: %d (IP: %s) Logout Character:[%s] (guid: %u)", GetAccountId(), GetRemoteAddress().c_str(), _player->GetName(), _player->GetGUIDLow());
 #endif
@@ -780,6 +780,11 @@ void WorldSession::LogoutPlayer()
         // Remember player GUID for update SQL below
         uint32 guid = _player->GetGUIDLow();
 #endif
+#ifdef ENABLE_PLAYERBOTS
+        // Remember player GUID for update SQL below
+        uint32 guid = _player->GetGUIDLow();
+#endif
+
 
 //Start Solocraft Function
         CharacterDatabase.PExecute("DELETE FROM custom_solocraft_character_stats WHERE GUID = %u", _player->GetGUIDLow());
