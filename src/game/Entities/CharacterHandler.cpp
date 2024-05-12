@@ -235,24 +235,27 @@ class CharacterHandler
         {
             if (!holder) return;
 
+#ifdef ENABLE_PLAYERBOTS
             WorldSession* session = sWorld.FindSession(((LoginQueryHolder*)holder)->GetAccountId());
             if (!session)
             {
                 delete holder;
                 return;
             }
-#ifdef ENABLE_PLAYERBOTS
+
             ObjectGuid guid = ((LoginQueryHolder*)holder)->GetGuid();
-#endif
             session->HandlePlayerLogin((LoginQueryHolder*)holder);
-#ifdef ENABLE_PLAYERBOTS
-            Player* player = sObjectMgr.GetPlayer(guid, true);
+
+            Player* player = session->GetPlayer();
             if (player)
             {
                 player->CreatePlayerbotMgr();
                 player->GetPlayerbotMgr()->OnPlayerLogin(player);
                 sRandomPlayerbotMgr.OnPlayerLogin(player);
             }
+#else
+            if (WorldSession* session = sWorld.FindSession(((LoginQueryHolder*)holder)->GetAccountId()))
+                session->HandlePlayerLogin((LoginQueryHolder*)holder);
 #endif
         }
 #ifdef BUILD_DEPRECATED_PLAYERBOT
