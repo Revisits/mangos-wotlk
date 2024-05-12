@@ -215,7 +215,7 @@ void WorldSession::SendPacket(WorldPacket const& packet) const
     }
 #endif
 
-    if (!m_socket)
+    if (!m_socket || (m_sessionState != WORLD_SESSION_STATE_READY && !forcedSend))
     {
         //sLog.outDebug("Refused to send %s to %s", packet.GetOpcodeName(), _player ? _player->GetName() : "UKNOWN");
         return;
@@ -777,11 +777,6 @@ void WorldSession::LogoutPlayer()
         sTicketMgr.OnPlayerOnlineState(*_player, false);
 
 #ifdef BUILD_DEPRECATED_PLAYERBOT
-        // Remember player GUID for update SQL below
-        uint32 guid = _player->GetGUIDLow();
-#endif
-
-#ifdef ENABLE_PLAYERBOTS
         // Remember player GUID for update SQL below
         uint32 guid = _player->GetGUIDLow();
 #endif
