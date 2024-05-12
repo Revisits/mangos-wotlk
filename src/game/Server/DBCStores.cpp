@@ -90,12 +90,6 @@ DBCStorage <DurabilityCostsEntry> sDurabilityCostsStore(DurabilityCostsfmt);
 DBCStorage <EmotesEntry> sEmotesStore(EmotesEntryfmt);
 DBCStorage <EmotesTextEntry> sEmotesTextStore(EmotesTextEntryfmt);
 
-#ifdef ENABLE_PLAYERBOTS
-typedef std::tuple<uint32, uint32, uint32> EmotesTextSoundKey;
-static std::map<EmotesTextSoundKey, EmotesTextSoundEntry const*> sEmotesTextSoundMap;
-DBCStorage <EmotesTextSoundEntry> sEmotesTextSoundStore(EmotesTextSoundEntryfmt);
-#endif
-
 typedef std::map<uint32, SimpleFactionsList> FactionTeamMap;
 static FactionTeamMap sFactionTeamMap;
 DBCStorage <FactionEntry> sFactionStore(FactionEntryfmt);

@@ -305,11 +305,7 @@ class Map : public GridRefManager<NGridType>
         bool HavePlayers() const { return !m_mapRefManager.isEmpty(); }
         uint32 GetPlayersCountExceptGMs() const;
         bool ActiveObjectsNearGrid(uint32 x, uint32 y) const;
-
-#ifdef ENABLE_PLAYERBOTS
-        bool HasRealPlayers() { return hasRealPlayers; }
-#endif
-
+		
         /// Send a Packet to all players on a map
         void SendToPlayers(WorldPacket const& data) const;
         /// Send a Packet to all players in a zone. Return false if no player found
@@ -644,6 +640,12 @@ class Map : public GridRefManager<NGridType>
         std::shared_ptr<CreatureSpellListContainer> m_spellListContainer;
 
         WorldStateVariableManager m_variableManager;
+		
+	#ifdef ENABLE_PLAYERBOTS
+        std::vector<uint32> m_activeZones;
+        uint32 m_activeZonesTimer;
+        bool hasRealPlayers;
+	#endif
 
         ZoneDynamicInfoMap m_zoneDynamicInfo;
         ZoneDynamicInfoMap m_areaDynamicInfo;
@@ -652,11 +654,6 @@ class Map : public GridRefManager<NGridType>
         TimePoint m_dynamicDifficultyCooldown;
 
         std::map<std::pair<uint32, uint32>, uint32> m_tileNumberPerTile;
-        
-        std::vector<ContinentArea> m_activeAreas;
-        std::vector<uint32> m_activeZones;
-        uint32 m_activeAreasTimer;
-        bool hasRealPlayers;
 };
 
 class WorldMap : public Map

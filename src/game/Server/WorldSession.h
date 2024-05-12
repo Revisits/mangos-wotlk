@@ -326,10 +326,6 @@ class WorldSession
         void SetNoAnticheat();
 #endif
 
-#ifdef ENABLE_PLAYERBOTS
-        void SetNoAnticheat();
-#endif
-
         /// Session in auth.queue currently
         void SetInQueue(bool state) { m_inQueue = state; }
 
@@ -511,7 +507,6 @@ class WorldSession
         // Misc
         void SendKnockBack(Unit* who, float angle, float horizontalSpeed, float verticalSpeed);
         void SendPlaySpellVisual(ObjectGuid guid, uint32 spellArtKit) const;
-        void SendTeleportToObservers(float x, float y, float z, float orientation);
 
         void SendAuthOk() const;
         void SendAuthQueued() const;
